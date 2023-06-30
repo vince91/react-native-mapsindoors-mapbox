@@ -7,7 +7,7 @@
 ### iOS
 
 The MapsIndoors SDK requires iOS 13, so make sure that your podfile is configured for iOS 13.
-Add !use_frameworks inside your app target as well.
+Add !use_frameworks inside your app target as well. You may also have to turn off `flipper` if you experience issues with MapBoxDirections.
 
 ```pod
 platform :ios, '13.0
@@ -76,6 +76,10 @@ allprojects {
 ```
 
 ## Usage
+
+### Reference docs
+
+[Reference Documentation](https://app.mapsindoors.com/mapsindoors/reference/react-native/mapbox/1.0.0/index.html)
 
 ### Showing your map
 

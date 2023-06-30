@@ -1,7 +1,7 @@
 {
     "name": "@mapsindoors/react-native-maps-indoors-mapbox",
     "title": "React Native MapsIndoors Mapbox",
-    "version": "0.1.6-beta4",
+    "version": "1.0.0",
     "description": "React Native MapsIndoors component with mapbox",
     "react-native": "index.ts",
     "files": [
@@ -18,8 +18,8 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/github_account/react-native-maps-indoors.git",
-        "baseUrl": "https://github.com/github_account/react-native-maps-indoors"
+        "url": "git+https://github.com/MapsPeople/react-native-mapsindoors-mapbox.git",
+        "baseUrl": "https://github.com/MapsPeople/react-native-mapsindoors-mapbox"
     },
     "keywords": [
         "react-native",
@@ -48,6 +48,6 @@
         "typescript": "^5.0.4"
     },
     "bugs": {
-        "url": "https://github.com/github_account/react-native-maps-indoors/issues"
+        "url": "https://github.com/MapsPeople/react-native-mapsindoors-mapbox/issues"
     }
 }
