@@ -2,6 +2,7 @@ package com.reactlibrary;
 
 import android.app.Activity;
 import android.graphics.Typeface;
+import android.content.Context;
 
 import com.facebook.react.bridge.ReadableMap;
 import com.mapbox.geojson.Point;
@@ -20,9 +21,11 @@ import com.reactlibrary.core.models.MPCameraUpdate;
 
 public class MapboxMapView implements RCMapView {
     private MapView mMapView;
+    private Context mContext;
 
-    public MapboxMapView(MapView mapView) {
+    public MapboxMapView(MapView mapView, Context context) {
         mMapView = mapView;
+        mContext = context;
     }
 
     @Override
@@ -93,7 +96,8 @@ public class MapboxMapView implements RCMapView {
                 Point southWest = Point.fromLngLat(cameraUpdate.bounds.getSouthWest().getLng(), cameraUpdate.bounds.getSouthWest().getLat());
                 Point northEast = Point.fromLngLat(cameraUpdate.bounds.getNorthEast().getLng(), cameraUpdate.bounds.getNorthEast().getLat());
                 CoordinateBounds coordinateBounds = new CoordinateBounds(southWest, northEast);
-                return mMapView.getMapboxMap().cameraForCoordinateBounds(coordinateBounds, new EdgeInsets(0,0,0,0), null, null);
+                Double padding = (double) (mContext.getResources().getDisplayMetrics().density * cameraUpdate.padding);
+                return mMapView.getMapboxMap().cameraForCoordinateBounds(coordinateBounds, new EdgeInsets(padding, padding, padding, padding), null, null);
             case ZOOM_BY:
                 return new CameraOptions.Builder().zoom(mMapView.getMapboxMap().getCameraState().getZoom() + cameraUpdate.zoom).build();
             case ZOOM_TO:

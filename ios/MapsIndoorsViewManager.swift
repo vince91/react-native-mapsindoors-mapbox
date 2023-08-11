@@ -71,7 +71,9 @@ struct MapBoxView: RCMapView {
             update = CameraOptions(cameraState: camera)
             update.center = position.target.coordinate
             update.bearing = CLLocationDirection(position.bearing)
-            update.zoom = CGFloat(cameraUpdate.zoom!)
+            if (cameraUpdate.zoom != nil) {
+                update.zoom = CGFloat(cameraUpdate.zoom!)
+            }
         default:
             throw CameraUpdateError.unknownMode(cameraUpdate.mode)
         }

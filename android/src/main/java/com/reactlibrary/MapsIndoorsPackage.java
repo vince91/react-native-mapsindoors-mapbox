@@ -23,10 +23,12 @@ import com.reactlibrary.core.UtilsModule;
 public class MapsIndoorsPackage implements ReactPackage, OnResultReadyListener {
     private MapControlModule mapControlModule;
     private MapsIndoorsViewManager viewManager;
+    private ReactApplicationContext mContext;
 
     @NonNull
     @Override
     public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
+        mContext = reactContext;
         mapControlModule = new MapControlModule(reactContext);
         return Arrays.asList(
                 new MapsIndoorsModule(reactContext),
@@ -46,6 +48,7 @@ public class MapsIndoorsPackage implements ReactPackage, OnResultReadyListener {
 
     @Override
     public void onResultReady(@Nullable MIError miError) {
-        mapControlModule.setView(new MapboxMapView(viewManager.getView()));
+        mapControlModule.setView(new MapboxMapView(viewManager.getView(), mContext));
     }
 }
+
