@@ -1,13 +1,17 @@
-# react-native-maps-indoors
+# react-native-maps-indoors-mapbox
+
+## Documentation
+
+Visit [our reference document site](https://app.mapsindoors.com/mapsindoors/reference/react-native/mapbox/1.0.2/index.html) to get an overview of what the MapsIndoors SDK offers.
 
 ## Getting started
 
-`$ npm install react-native-maps-indoors-mapbox`
+`$ npm install @mapsindoors/react-native-maps-indoors-mapbox`
 
 ### iOS
 
 The MapsIndoors SDK requires iOS 13, so make sure that your podfile is configured for iOS 13.
-Add !use_frameworks inside your app target as well. You may also have to turn off `flipper` if you experience issues with MapBoxDirections.
+Add !use_frameworks inside your app target as well.
 
 ```pod
 platform :ios, '13.0
@@ -76,10 +80,6 @@ allprojects {
 ```
 
 ## Usage
-
-### Reference docs
-
-[Reference Documentation](https://app.mapsindoors.com/mapsindoors/reference/react-native/mapbox/1.0.0/index.html)
 
 ### Showing your map
 
