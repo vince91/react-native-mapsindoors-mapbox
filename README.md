@@ -28,20 +28,21 @@ target 'MyApp' do
 
 ### Android
 
-#### Android Gooogle Maps Setup
+#### Android Mapbox Setup
 
 ​
-To get the underlying Google Map to function, you need to perform the following steps:
+To get the underlying Mapbox to function, you need to perform the following steps:
 ​
 
 1. Navigate to `android/app/src/main/res/value`.
-2. Create a file in this folder called `mapbox_api_key.xml`.
+2. Create a file in this folder called `mapbox_access_token.xml`.
 3. Copy and paste the below code snippet and replace `YOUR_KEY_HERE` with your Mapbox api key.
 ​
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="mapbox_access_token" translatable="false">YOUR_KEY_HERE</string>
     <string name="mapbox_api_key" translatable="false">YOUR_KEY_HERE</string>
 </resources>
 ```
