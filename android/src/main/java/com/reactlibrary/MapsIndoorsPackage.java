@@ -51,4 +51,3 @@ public class MapsIndoorsPackage implements ReactPackage, OnResultReadyListener {
         mapControlModule.setView(new MapboxMapView(viewManager.getView(), mContext));
     }
 }
-

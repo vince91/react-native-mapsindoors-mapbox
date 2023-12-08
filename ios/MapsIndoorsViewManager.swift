@@ -108,4 +108,5 @@ struct MapBoxView: RCMapView {
     func getConfig() -> MPMapConfig {
         return MPMapConfig(mapBoxView: mapboxView, accessToken: Bundle.main.object(forInfoDictionaryKey: "MBXAccessToken") as? String ?? "")
     }
+
 }
