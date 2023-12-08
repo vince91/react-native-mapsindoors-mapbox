@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.dependency "React"
-  s.dependency "MapsIndoorsMapbox", "4.2.10"
-  s.dependency "MapsIndoorsCodable", "4.2.10"
+  s.dependency "MapsIndoorsMapbox", "4.2.12"
+  s.dependency "MapsIndoorsCodable", "4.2.12"
 end
 
