@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.mapsindoorsrn;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,12 +13,12 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.mapsindoors.core.OnResultReadyListener;
 import com.mapsindoors.core.errors.MIError;
-import com.reactlibrary.core.DirectionsRendererModule;
-import com.reactlibrary.core.DirectionsServiceModule;
-import com.reactlibrary.core.MPDisplayRuleModule;
-import com.reactlibrary.core.MapControlModule;
-import com.reactlibrary.core.MapsIndoorsModule;
-import com.reactlibrary.core.UtilsModule;
+import com.mapsindoorsrn.core.DirectionsRendererModule;
+import com.mapsindoorsrn.core.DirectionsServiceModule;
+import com.mapsindoorsrn.core.MPDisplayRuleModule;
+import com.mapsindoorsrn.core.MapControlModule;
+import com.mapsindoorsrn.core.MapsIndoorsModule;
+import com.mapsindoorsrn.core.UtilsModule;
 
 public class MapsIndoorsPackage implements ReactPackage, OnResultReadyListener {
     private MapControlModule mapControlModule;
