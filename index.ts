@@ -40,7 +40,7 @@ import MPDirectionsService from './src/core/MPDirectionsService';
 import { MPCameraViewFitMode } from './src/core/MPCameraViewFitMode';
 import MPCameraPosition from './src/core/MPCameraPosition';
 import MPFilterBehavior from './src/core/MPFilterBehavior';
-import MPHighlightBehavior from 'src/core/MPHighlightBehavior';
+import MPHighlightBehavior from './src/core/MPHighlightBehavior';
 import MPSolutionConfig from './src/core/MPSolutionConfig';
 import { OnMapClickListener } from './src/core/OnMapClickListener';
 import MPSelectionBehavior from './src/core/MPSelectionBehavior';
@@ -89,7 +89,7 @@ import { MPCameraPositionParams } from './src/core/MPCameraPosition';
 import { MPFilterBehaviorParams } from './src/core/MPFilterBehavior';
 import { MPSolutionConfigParams } from './src/core/MPSolutionConfig';
 import { MPRouteCoordinateParams } from './src/core/MPRouteCoordinate';
-import { MPHighlightBehaviorParams } from 'src/core/MPHighlightBehavior';
+import { MPHighlightBehaviorParams } from './src/core/MPHighlightBehavior';
 import  MapView  from './src/core/MapView';
 
 

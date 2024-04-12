@@ -2,7 +2,7 @@
 
 ## Documentation
 
-Visit [our reference document site](https://app.mapsindoors.com/mapsindoors/reference/react-native/mapbox/1.0.8/index.html) to get an overview of what the MapsIndoors SDK offers.
+Visit [our reference document site](https://app.mapsindoors.com/mapsindoors/reference/react-native/mapbox/1.1.0/index.html) to get an overview of what the MapsIndoors SDK offers.
 
 ## Getting started
 
