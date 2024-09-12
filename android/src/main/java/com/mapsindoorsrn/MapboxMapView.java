@@ -19,6 +19,9 @@ import com.mapsindoorsrn.core.RCMapView;
 import com.mapsindoorsrn.core.models.MPCameraPosition;
 import com.mapsindoorsrn.core.models.MPCameraUpdate;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class MapboxMapView implements RCMapView {
     private MapView mMapView;
     private Context mContext;
@@ -80,6 +83,18 @@ public class MapboxMapView implements RCMapView {
             config.setTileFadeInEnabled(configMap.getBoolean("enableTileFadeIn"));
         }
 
+        if (configMap.hasKey("mapsIndoorsTransitionLevel")) {
+            config.setMapsIndoorsTransitionLevel(configMap.getInt("mapsIndoorsTransitionLevel"));
+        }
+
+        if (configMap.hasKey("showMapMarkers")) {
+            config.showMapMarkers(configMap.getBoolean("showMapMarkers"));
+        }
+
+        if (configMap.hasKey("showRoadLabels")) {
+            config.showRoadLabels(configMap.getBoolean("showRoadLabels"));
+        }
+
         return config.build();
     }
 
@@ -95,9 +110,9 @@ public class MapboxMapView implements RCMapView {
             case FROM_BOUNDS:
                 Point southWest = Point.fromLngLat(cameraUpdate.bounds.getSouthWest().getLng(), cameraUpdate.bounds.getSouthWest().getLat());
                 Point northEast = Point.fromLngLat(cameraUpdate.bounds.getNorthEast().getLng(), cameraUpdate.bounds.getNorthEast().getLat());
-                CoordinateBounds coordinateBounds = new CoordinateBounds(southWest, northEast);
                 Double padding = (double) (mContext.getResources().getDisplayMetrics().density * cameraUpdate.padding);
-                return mMapView.getMapboxMap().cameraForCoordinateBounds(coordinateBounds, new EdgeInsets(padding, padding, padding, padding), null, null);
+                CameraOptions cameraOptions = new CameraOptions.Builder().build();
+                return mMapView.getMapboxMap().cameraForCoordinates(Arrays.asList(southWest,northEast), cameraOptions, new EdgeInsets(padding, padding, padding, padding), null, null);
             case ZOOM_BY:
                 return new CameraOptions.Builder().zoom(mMapView.getMapboxMap().getCameraState().getZoom() + cameraUpdate.zoom).build();
             case ZOOM_TO:

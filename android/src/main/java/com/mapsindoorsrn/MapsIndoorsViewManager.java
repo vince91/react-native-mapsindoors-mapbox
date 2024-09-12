@@ -14,6 +14,9 @@ import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactPropGroup;
+import com.mapbox.maps.CameraOptions;
+import com.mapbox.maps.MapInitOptions;
+import com.mapbox.maps.MapOptions;
 import com.mapbox.maps.MapView;
 import com.mapsindoors.core.OnResultReadyListener;
 
@@ -45,7 +48,8 @@ public class MapsIndoorsViewManager extends ViewGroupManager<MapView> {
     @NonNull
     @Override
     protected MapView createViewInstance(@NonNull ThemedReactContext reactContext) {
-        view = new MapView(reactContext);
+        MapInitOptions options = new MapInitOptions(reactContext, MapInitOptions.Companion.getDefaultMapOptions(reactContext), MapInitOptions.Companion.getDefaultPluginList(), new CameraOptions.Builder().pitch(0.0).build());
+        view = new MapView(reactContext, options);
         return view;
     }
 
