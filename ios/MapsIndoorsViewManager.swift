@@ -11,9 +11,18 @@ class MapsIndoorsViewManager : RCTViewManager {
     @objc override static func requiresMainQueueSetup() -> Bool {return false}
 
     override func view() -> UIView! {
-        let mapInitOptions = MapInitOptions(resourceOptions: ResourceOptions(accessToken: Bundle.main.object(forInfoDictionaryKey: "MBXAccessToken") as? String ?? ""))
-        let mapView = MapView(frame: .zero, mapInitOptions: mapInitOptions)
+        MapboxOptions.accessToken = Bundle.main.object(forInfoDictionaryKey: "MBXAccessToken") as? String ?? ""
+        let cameraOptions = CameraOptions(
+                            center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
+                            zoom: 2,
+                            pitch: 0
+                        )
+        let options = MapInitOptions(cameraOptions: cameraOptions)
         
+        let mapView = MapView(frame: CGRect(x: 0, y: 0, width: 64, height: 64), mapInitOptions: options)
+        
+
+        MapsIndoorsData.reset()
         MapsIndoorsData.sharedInstance.mapView = MapBoxView(mapboxView: mapView)
         return mapView
     }
@@ -22,12 +31,21 @@ class MapsIndoorsViewManager : RCTViewManager {
     }
 }
 
-struct MapBoxView: RCMapView {
+class MapBoxView: RCMapView {
     
     private let mapboxView: MapView
+    private var mMapControl: MPMapControl? = nil
     
     init(mapboxView: MapView) {
         self.mapboxView = mapboxView
+    }
+    
+    internal func getMapControl() -> MPMapControl? {
+        return mMapControl
+    }
+    
+    func setMapControl(mapControl: any MapsIndoors.MPMapControl) {
+        mMapControl = mapControl
     }
     
     private func makeCameraUpdate(cameraUpdate: CameraUpdate) throws -> CameraOptions {
@@ -42,6 +60,7 @@ struct MapBoxView: RCMapView {
             
             update = CameraOptions(cameraState: camera)
             update.center = point.coordinate
+
         case "fromBounds":
             guard let bounds = cameraUpdate.bounds else {
                 throw CameraUpdateError.missingField("fromBounds", "bounds")
@@ -52,16 +71,19 @@ struct MapBoxView: RCMapView {
             
             update = CameraOptions(cameraState: camera)
             update.center = camerabounds.bounds?.center
+
         case "zoomBy":
             let camera = mapboxView.mapboxMap.cameraState
             
             update = CameraOptions(cameraState: camera)
             update.zoom = CGFloat(cameraUpdate.zoom!)
+            
         case "zoomTo":
             let camera = mapboxView.mapboxMap.cameraState
             
             update = CameraOptions(cameraState: camera)
             update.zoom = CGFloat(cameraUpdate.zoom!)
+
         case "fromCameraPosition":
             guard let position = cameraUpdate.position else {
                 throw CameraUpdateError.missingField("fromCameraPosition", "position")
@@ -71,9 +93,9 @@ struct MapBoxView: RCMapView {
             update = CameraOptions(cameraState: camera)
             update.center = position.target.coordinate
             update.bearing = CLLocationDirection(position.bearing)
-            if (cameraUpdate.zoom != nil) {
-                update.zoom = CGFloat(cameraUpdate.zoom!)
-            }
+            update.zoom = CGFloat(position.zoom)
+            update.pitch = CGFloat(position.tilt)
+
         default:
             throw CameraUpdateError.unknownMode(cameraUpdate.mode)
         }
@@ -86,7 +108,7 @@ struct MapBoxView: RCMapView {
         
         cameraOption = try makeCameraUpdate(cameraUpdate: cameraUpdate)
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [self] in
             if (duration != 0) {
                 mapboxView.mapboxMap.setCamera(to: cameraOption)
             } else {
@@ -100,13 +122,23 @@ struct MapBoxView: RCMapView {
         
         cameraOption = try makeCameraUpdate(cameraUpdate: cameraUpdate)
         
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [self] in
             mapboxView.mapboxMap.setCamera(to: cameraOption)
         }
     }
     
-    func getConfig() -> MPMapConfig {
-        return MPMapConfig(mapBoxView: mapboxView, accessToken: Bundle.main.object(forInfoDictionaryKey: "MBXAccessToken") as? String ?? "")
+    func getConfig(config: NSDictionary) -> MPMapConfig {
+        let mapConfig = MPMapConfig(mapBoxView: mapboxView, accessToken: Bundle.main.object(forInfoDictionaryKey: "MBXAccessToken") as? String ?? "")
+        if let zoom = config["mapsIndoorsTransitionLevel"] as? NSNumber {
+            mapConfig.setMapsIndoorsTransitionLevel(zoom: zoom.intValue)
+        }
+        if let showMapMarkers = config["showMapMarkers"] as? Bool {
+            mapConfig.setShowMapMarkers(show: showMapMarkers)
+        }
+        if let showRoadLabels = config["showRoadLabels"] as? Bool {
+            mapConfig.setShowRoadLabels(show: showRoadLabels)
+        }
+        return mapConfig
     }
 
 }

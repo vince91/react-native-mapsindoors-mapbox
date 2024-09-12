@@ -2,7 +2,7 @@
 
 ## Documentation
 
-Visit [our reference document site](https://app.mapsindoors.com/mapsindoors/reference/react-native/mapbox/1.1.0/index.html) to get an overview of what the MapsIndoors SDK offers.
+Visit [our reference document site](https://app.mapsindoors.com/mapsindoors/reference/react-native/mapbox/2.0.7/index.html) to get an overview of what the MapsIndoors SDK offers.
 
 ## Getting started
 
@@ -10,11 +10,11 @@ Visit [our reference document site](https://app.mapsindoors.com/mapsindoors/refe
 
 ### iOS
 
-The MapsIndoors SDK requires iOS 13, so make sure that your podfile is configured for iOS 13.
+The MapsIndoors SDK requires iOS 14, so make sure that your podfile is configured for iOS 14.
 Disable flipper and add !use_frameworks as well as adding config.build_settings to post install script.
 
 ```pod
-platform :ios, '13.0
+platform :ios, '14.0
 
 flipper_config = FlipperConfiguration.disabled
 
@@ -25,7 +25,7 @@ target 'MyApp' do
   ...
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
         config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
     end
    end
@@ -89,6 +89,53 @@ allprojects {
             }
         }
     }
+}
+```
+
+### Expo
+
+This library implements native modules and can't be used with ExpoGO, developments build is required [Delopment Builds](https://docs.expo.dev/develop/development-builds/introduction/)
+
+To build and run correctly, the native ios linkage required to being set as dynamic.
+Project configuration can be done with the expo module expo-build-properties.
+
+with npx :  
+`$ npx expo install expo-build-properties`
+
+with npm :  
+`$ npm install expo-build-properties`
+
+with yarn :  
+`$ yarn add expo-build-properties`
+
+This library includes an expo plugin to support native integration.
+To enable it, you need to add the configuration in your expo configuration.
+
+```json
+// app.json
+
+{
+  "expo": {
+    // ... your configuration
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "14.0"
+          }
+        }
+      ],
+      [
+        "@mapsindoors/react-native-maps-indoors-mapbox/app.plugin.js", // plugin ref
+        {
+          "publicToken": "PUBLIC_TOKEN", // your map public token
+          "downloadToken": "DOWNLOAD_TOKEN", // your download token
+          "staticPods": true // OPTIONAL, add if your project use static linkage for pods (ex: "useFrameworks": "static" with expo-build-properties)
+        }
+      ]
+    ]
+  }
 }
 ```
 
