@@ -9,7 +9,10 @@ import MapboxMaps
 @objc(MapsIndoorsViewManager)
 class MapsIndoorsViewManager : RCTViewManager {
     @objc override static func requiresMainQueueSetup() -> Bool {return false}
+    
+    var mapView: MapView? = nil
 
+    
     override func view() -> UIView! {
         MapboxOptions.accessToken = Bundle.main.object(forInfoDictionaryKey: "MBXAccessToken") as? String ?? ""
         let cameraOptions = CameraOptions(
@@ -19,15 +22,41 @@ class MapsIndoorsViewManager : RCTViewManager {
                         )
         let options = MapInitOptions(cameraOptions: cameraOptions)
         
-        let mapView = MapView(frame: CGRect(x: 0, y: 0, width: 64, height: 64), mapInitOptions: options)
+        mapView = MapView(frame: CGRect(x: 0, y: 0, width: 64, height: 64), mapInitOptions: options)
         
 
         MapsIndoorsData.reset()
-        MapsIndoorsData.sharedInstance.mapView = MapBoxView(mapboxView: mapView)
-        return mapView
+        MapsIndoorsData.sharedInstance.mapView = MapBoxView(mapboxView: mapView!)
+        return mapView!
     }
 
-    @objc func create(_ node: NSNumber, nodeAgain: NSNumber) {
+    @objc func create(_ node: NSNumber, nodeAgain: NSNumber, camera: String, showCompass: Bool) {
+        let decoder = JSONDecoder()
+
+        DispatchQueue.main.async {
+            if showCompass {
+                self.mapView?.ornaments.options.compass.visibility = OrnamentVisibility.adaptive
+            }else {
+                self.mapView?.ornaments.options.compass.visibility = OrnamentVisibility.hidden
+            }
+        }
+        
+        guard let position = try? decoder.decode(CameraPosition.self, from: camera.data(using: .utf8)!) else {
+            return
+        }
+        
+        DispatchQueue.main.async {
+            var update: CameraOptions
+            if let mapCamera = self.mapView?.mapboxMap.cameraState {
+                update = CameraOptions(cameraState: mapCamera)
+                update.center = position.target.coordinate
+                update.bearing = CLLocationDirection(position.bearing)
+                update.zoom = CGFloat(position.zoom)
+                update.pitch = CGFloat(position.tilt)
+                
+                self.mapView?.mapboxMap.setCamera(to: update)
+            }
+        }
     }
 }
 
@@ -140,5 +169,4 @@ class MapBoxView: RCMapView {
         }
         return mapConfig
     }
-
 }

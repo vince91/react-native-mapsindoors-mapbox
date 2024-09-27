@@ -14,11 +14,15 @@ import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactPropGroup;
+import com.google.gson.Gson;
+import com.mapbox.geojson.Point;
 import com.mapbox.maps.CameraOptions;
+import com.mapbox.maps.CameraState;
 import com.mapbox.maps.MapInitOptions;
-import com.mapbox.maps.MapOptions;
 import com.mapbox.maps.MapView;
+import com.mapbox.maps.plugin.compass.CompassUtils;
 import com.mapsindoors.core.OnResultReadyListener;
+import com.mapsindoorsrn.core.models.MPCameraPosition;
 
 import java.util.Map;
 
@@ -28,6 +32,7 @@ public class MapsIndoorsViewManager extends ViewGroupManager<MapView> {
 
     private int propWidth;
     private int propHeight;
+    private Gson gson;
 
     private MapView view;
 
@@ -37,6 +42,7 @@ public class MapsIndoorsViewManager extends ViewGroupManager<MapView> {
     public MapsIndoorsViewManager(ReactApplicationContext reactContext, OnResultReadyListener onMapReadyCallback) {
         mReactContext = reactContext;
         mOnMapReadyCallback = onMapReadyCallback;
+        gson = new Gson();
     }
 
     @NonNull
@@ -68,6 +74,25 @@ public class MapsIndoorsViewManager extends ViewGroupManager<MapView> {
 
         if (commandIdInt == COMMAND_CREATE) {
             createMapFragment(root, reactNativeViewId);
+
+            if (!args.isNull(1)) {
+                MPCameraPosition cameraPosition = gson.fromJson(args.getString(1), MPCameraPosition.class);
+                CameraState cameraState = view.getMapboxMap().getCameraState();
+                view.getMapboxMap().setCamera(new CameraOptions.Builder()
+                        .center(Point.fromLngLat(cameraPosition.target.getLng(), cameraPosition.target.getLat()))
+                        .zoom(cameraPosition.zoom != null ? Double.valueOf(cameraPosition.zoom) : cameraState.getZoom())
+                        .pitch(cameraPosition.tilt != null ? Double.valueOf(cameraPosition.tilt) : cameraState.getPitch())
+                        .bearing(cameraPosition.bearing != null ? Double.valueOf(cameraPosition.bearing) : cameraState.getBearing())
+                        .build());
+            }
+
+            if (!args.isNull(2)) {
+                if (args.getBoolean(2)) {
+                    CompassUtils.getCompass(view).setEnabled(true);
+                }else {
+                    CompassUtils.getCompass(view).setEnabled(false);
+                }
+            }
         }
     }
 
