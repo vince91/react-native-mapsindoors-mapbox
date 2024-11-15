@@ -105,7 +105,7 @@ class MapBoxView: RCMapView {
             let camera = mapboxView.mapboxMap.cameraState
             
             update = CameraOptions(cameraState: camera)
-            update.zoom = CGFloat(cameraUpdate.zoom!)
+            update.zoom = camera.zoom + CGFloat(cameraUpdate.zoom!)
             
         case "zoomTo":
             let camera = mapboxView.mapboxMap.cameraState
@@ -139,7 +139,7 @@ class MapBoxView: RCMapView {
         
         DispatchQueue.main.async { [self] in
             if (duration != 0) {
-                mapboxView.mapboxMap.setCamera(to: cameraOption)
+                mapboxView.camera.ease(to: cameraOption, duration: TimeInterval(duration/1000))
             } else {
                 mapboxView.mapboxMap.setCamera(to: cameraOption)
             }
