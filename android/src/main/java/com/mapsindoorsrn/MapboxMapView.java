@@ -11,6 +11,9 @@ import com.mapbox.maps.CameraState;
 import com.mapbox.maps.CoordinateBounds;
 import com.mapbox.maps.EdgeInsets;
 import com.mapbox.maps.MapView;
+import com.mapbox.maps.plugin.animation.CameraAnimationsPlugin;
+import com.mapbox.maps.plugin.animation.CameraAnimationsUtils;
+import com.mapbox.maps.plugin.animation.MapAnimationOptions;
 import com.mapsindoors.core.MPIMapConfig;
 import com.mapsindoors.core.MPPoint;
 import com.mapsindoors.core.OnResultReadyListener;
@@ -34,7 +37,8 @@ public class MapboxMapView implements RCMapView {
     @Override
     public void animateCamera(MPCameraUpdate cameraUpdate, Integer duration, OnResultReadyListener onFinished) {
         CameraOptions cameraOptions = toCameraOptions(cameraUpdate);
-        mMapView.getMapboxMap().setCamera(cameraOptions);
+        CameraAnimationsPlugin plugin = CameraAnimationsUtils.getCamera(mMapView);
+        plugin.easeTo(cameraOptions, new MapAnimationOptions.Builder().duration(duration).build(), null);
         onFinished.onResultReady(null);
     }
 
