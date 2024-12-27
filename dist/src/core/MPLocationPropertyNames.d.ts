@@ -1,0 +1,21 @@
+export declare enum MPLocationPropertyNames {
+    name = "name",
+    aliases = "aliases",
+    categories = "categories",
+    floor = "floor",
+    floorName = "floorName",
+    building = "building",
+    venue = "venue",
+    type = "type",
+    description = "description",
+    roomId = "roomId",
+    externalId = "externalId",
+    activeFrom = "activeFrom",
+    activeTo = "activeTo",
+    contact = "contact",
+    fields = "fields",
+    imageURL = "imageURL",
+    locationType = "locationType",
+    anchor = "anchor",
+    bookable = "bookable"
+}

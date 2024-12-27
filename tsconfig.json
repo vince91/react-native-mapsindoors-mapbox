@@ -1,6 +1,7 @@
 {
     "moduleResolution":"node",
     "compilerOptions": {
+      "outDir": "dist",
       "jsx": "react",
       "target": "ES2017",
       "lib":["ES2017"],
@@ -17,7 +18,7 @@
       "baseUrl": ".",
       "paths": {
         "*": ["*", "src/*"]
-      },
+      }
     },
     "include": ["src/**/*", "index.ts"],
     "exclude": ["build", "node_modules"]

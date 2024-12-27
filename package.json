@@ -3,7 +3,11 @@
     "title": "React Native MapsIndoors Mapbox",
     "version": "2.1.2",
     "description": "React Native MapsIndoors component with mapbox",
-    "react-native": "index.ts",
+    "type": "module",
+    "types": "dist/index.d.ts",
+    "typings": "dist/index.d.ts",
+    "react-native": "dist/index.js",
+    "main": "dist/index.js",
     "files": [
         "src/",
         "README.md",
@@ -15,7 +19,8 @@
         "app.plugin.js"
     ],
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc"
     },
     "repository": {
         "type": "git",
@@ -35,8 +40,11 @@
     "licenseFilename": "LICENSE",
     "homepage": "https://www.mapspeople.com/mapsindoors",
     "peerDependencies": {
+        "@expo/config-plugins": "~9.0.12",
         "react": ">=18.2.0",
         "react-native": ">=0.60.0-rc.0 <1.0.x"
+    },
+    "dependencies": {
     },
     "devDependencies": {
         "@tsconfig/react-native": "^3.0.2",
@@ -50,5 +58,6 @@
     },
     "bugs": {
         "url": "https://github.com/MapsPeople/react-native-mapsindoors-mapbox/issues"
-    }
+    },
+    "packageManager": "pnpm@8.15.8+sha512.d1a029e1a447ad90bc96cd58b0fad486d2993d531856396f7babf2d83eb1823bb83c5a3d0fc18f675b2d10321d49eb161fece36fe8134aa5823ecd215feed392"
 }

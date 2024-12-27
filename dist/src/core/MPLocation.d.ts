@@ -1,0 +1,31 @@
+import { MPGeometry, MPPoint, MPBounds, MPLocationType, MPLocationPropertyNames } from "../../index";
+import MPEntity from "./MPEntity";
+export default class MPLocation extends MPEntity {
+    readonly id: string;
+    readonly restrictions: string[];
+    readonly geometry?: MPGeometry;
+    private properties?;
+    bounds?: MPBounds;
+    get isPoint(): boolean;
+    get position(): MPPoint;
+    private constructor();
+    static create(object?: any): MPLocation;
+    get name(): string;
+    get aliases(): string[];
+    get categories(): string[] | undefined;
+    get floorIndex(): number;
+    get floorName(): string;
+    get buildingName(): string;
+    get venueName(): string;
+    get typeName(): string;
+    get description(): string;
+    get externalId(): string;
+    get activeFrom(): number;
+    get activeTo(): number;
+    get imageUrl(): string;
+    isBookable(): boolean;
+    set selectable(selectable: boolean | undefined);
+    get selectable(): boolean | null;
+    get baseType(): MPLocationType;
+    getProperty(key: MPLocationPropertyNames): any;
+}
